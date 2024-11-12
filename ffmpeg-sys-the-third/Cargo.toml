@@ -34,7 +34,7 @@ pkg-config = "0.3"
 bindgen = { version = "0.69", default-features = false, features = ["runtime"] }
 clang = { version = "2.0.0", features = ["clang_3_9", "runtime"] }
 
-[target.'cfg(target_env = "msvc")'.build-dependencies]
+# [target.'cfg(target_env = "msvc")'.build-dependencies]
 vcpkg = "0.2"
 
 [features]
@@ -61,6 +61,7 @@ avformat = ["avcodec"]
 postproc = []
 swresample = []
 swscale = []
+mediacodec = []
 
 #
 # Build-related features

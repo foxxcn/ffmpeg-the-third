@@ -558,6 +558,9 @@ fn build(out_dir: &Path, ffmpeg_version: &str) -> io::Result<PathBuf> {
     // the binary using ffmpeg-sys cannot be redistributed
     configure.switch("BUILD_LICENSE_NONFREE", "nonfree");
 
+    // Android MediaCodec
+    configure.switch("BUILD_MEDIACODEC", "mediacodec");
+
     // configure building libraries based on features
     for lib in LIBRARIES.iter().filter(|lib| lib.optional) {
         configure.switch(&lib.name.to_uppercase(), lib.name);
@@ -639,12 +642,12 @@ fn rustc_link_extralibs(source_dir: &Path) {
     }
 }
 
-#[cfg(not(target_env = "msvc"))]
-fn try_vcpkg(_statik: bool) -> Option<Vec<PathBuf>> {
-    None
-}
+// #[cfg(not(target_env = "msvc"))]
+// fn try_vcpkg(_statik: bool) -> Option<Vec<PathBuf>> {
+//     None
+// }
 
-#[cfg(target_env = "msvc")]
+// #[cfg(target_env = "msvc")]
 fn try_vcpkg(statik: bool) -> Option<Vec<PathBuf>> {
     if !statik {
         env::set_var("VCPKGRS_DYNAMIC", "1");
@@ -985,6 +988,11 @@ fn main() {
                 &format!("lib{}/{}", lib.name, header.name),
             ));
         }
+    }
+    
+    // Android MediaCodec
+    if env::var("CARGO_FEATURE_MEDIACODEC").is_ok() {
+        builder = builder.header(search_include(&include_paths, "libavcodec/mediacodec.h")); 
     }
 
     if cargo_feature_enabled("avcodec") && ffmpeg_major_version < 5 {

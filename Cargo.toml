@@ -27,7 +27,7 @@ version = "0.25"
 optional = true
 
 [dependencies.ffmpeg-sys-the-third]
-version = "2.1.0"
+# version = "2.1.0"
 default-features = false
 path = "ffmpeg-sys-the-third"
 
@@ -61,6 +61,7 @@ format = ["ffmpeg-sys-the-third/avformat", "codec"]
 postprocessing = ["ffmpeg-sys-the-third/postproc"]
 software-resampling = ["ffmpeg-sys-the-third/swresample"]
 software-scaling = ["ffmpeg-sys-the-third/swscale", "codec"]
+mediacodec = ["ffmpeg-sys-the-third/mediacodec"]
 
 #
 # Build-related features
