@@ -4,6 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 // FFI Types may differ across platforms, making casts necessary
 #![allow(clippy::unnecessary_cast)]
+// This lint sometimes suggests worse code. See rust-lang/rust-clippy#13514
+#![allow(clippy::needless_lifetimes)]
 
 #[macro_use]
 extern crate bitflags;
@@ -77,6 +79,10 @@ pub use crate::filter::Filter;
 
 pub mod software;
 
+mod as_ptr;
+pub use as_ptr::{AsMutPtr, AsPtr};
+
+pub(crate) mod macros;
 pub(crate) mod utils;
 
 fn init_error() {
